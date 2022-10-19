@@ -1,0 +1,60 @@
+.ant-menu-item-group-title {
+  font-size: 13px !important;
+}
+
+.ant-menu-item {
+  border-radius: 5px;
+}
+
+.ant-menu-item-selected {
+  border: none !important;
+  background-color: #0066e5 !important;
+  color: #fff !important;
+}
+
+.ant-menu-item-selected a {
+  color: #fff !important;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bolder;
+  text-align: center;
+  height: 64px;
+  line-height: 64px;
+  border-bottom: 2px solid #f7f7f7;
+  a,
+  a:hover {
+    color: #000;
+  }
+}
+
+Header {
+  display: flex;
+  .left {
+    padding: 0 16px;
+    font-size: 18px;
+    color: #000;
+    .platform-us {
+      font-size: 10px;
+      color: #9a9a9a;
+    }
+  }
+  .right {
+    font-size: 18px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    padding-right: 20px;
+    Button {
+      width: 20px;
+      height: 20px;
+      margin-right: 20px;
+    }
+    .user-logout {
+      display: inline-block;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+  }
+}
