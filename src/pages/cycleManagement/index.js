@@ -121,7 +121,6 @@ function CycleManagement() {
           </Form>
 
           <Table
-            className='table'
             data={data}
             columns={columns}
             rowKey="index"
