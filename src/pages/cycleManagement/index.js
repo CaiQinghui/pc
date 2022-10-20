@@ -50,8 +50,6 @@ function CycleManagement() {
       width: 120
     },
   ]
-  const dataTotal = total => `共 ${total} 项数据`
-
   const data = [];
   for (let i = 0; i < 200; i++) {
     data.push({
@@ -65,7 +63,6 @@ function CycleManagement() {
       operate: <Button text type="primary">编辑</Button>,
     });
   }
-
   const options = [
     {
       value: 'name1',
@@ -76,6 +73,7 @@ function CycleManagement() {
       label: 'name2',
     },
   ]
+  const dataTotal = total => `共 ${total} 项数据`
 
   return (
     <>
