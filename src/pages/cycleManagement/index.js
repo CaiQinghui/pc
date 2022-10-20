@@ -53,11 +53,11 @@ function CycleManagement() {
   const dataTotal = total => `共 ${total} 项数据`
 
   const data = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 200; i++) {
     data.push({
       key: i,
       id: i + 1,
-      cycleName: '2022年三季度O类岗员工职位晋升详细',
+      cycleName: `2022年三季度O类岗员工职位晋升${i}`,
       time: '2021-06-01 ~ 2021-06-15',
       statu: <Status status='efficient' />,
       founder: [<span className='surname' key={`${i}`}>詹</span>, `詹军希${i}`],
