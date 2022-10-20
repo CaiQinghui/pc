@@ -6,6 +6,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css'
 import 'shineout/dist/theme.shineout.css'
+import 'tdesign-react/es/style/index.css'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

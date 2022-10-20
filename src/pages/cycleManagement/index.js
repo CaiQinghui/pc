@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import {
-  Table,
   Layout,
   Form,
   Cascader,
-  Alert
+  Alert,
 } from 'antd'
+import { Table } from 'tdesign-react';
 import Icon from '@shein-components/Icon'
 import { Button } from 'shineout'
 import './index.scss'
@@ -13,40 +13,41 @@ import Status from '../../components/status'
 
 function CycleManagement() {
   const { Header, Content } = Layout;
+
   const columns = [
     {
       title: '序号',
-      dataIndex: 'id',
+      colKey: 'id',
       width: 60,
     },
     {
       title: '周期名称',
-      dataIndex: 'cycleName',
+      colKey: 'cycleName',
       width: 280,
     },
     {
       title: '起止时间',
-      dataIndex: 'time',
+      colKey: 'time',
       width: 280,
     },
     {
       title: '状态',
-      dataIndex: 'statu',
+      colKey: 'statu',
       width: 100,
     },
     {
       title: '创建人',
-      dataIndex: 'founder',
+      colKey: 'founder',
       width: 150,
     },
     {
       title: '创建时间',
-      dataIndex: 'creation',
+      colKey: 'creation',
       width: 200,
     },
     {
       title: '操作',
-      dataIndex: 'operate',
+      colKey: 'operate',
       width: 120
     },
   ]
@@ -73,7 +74,6 @@ function CycleManagement() {
       label: 'name2',
     },
   ]
-  const dataTotal = total => `共 ${total} 项数据`
 
   return (
     <>
@@ -122,18 +122,16 @@ function CycleManagement() {
 
           <Table
             className='table'
+            data={data}
             columns={columns}
-            dataSource={data}
+            rowKey="index"
             pagination={{
-              showTotal: dataTotal,
+              defaultCurrent: 1,
               defaultPageSize: 10,
-              showSizeChanger: true,
-              pageSizeOptions: [10, 20, 30, 50, 100],
+              total: data.length,
+              pageSizeOptions: [10, 20, 30, 50, 100]
             }}
-            // scroll={{ y: 400 }}
-            style={{ padding: ' 0 16px' }}
-          >
-          </Table>
+          />
         </Content>
       </Layout >
     </>
