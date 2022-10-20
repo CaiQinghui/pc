@@ -130,7 +130,7 @@ function CycleManagement() {
               showSizeChanger: true,
               pageSizeOptions: [10, 20, 30, 50, 100],
             }}
-            scroll={{ y: 400 }}
+            // scroll={{ y: 400 }}
             style={{ padding: ' 0 16px' }}
           >
           </Table>
