@@ -10,6 +10,7 @@ import Icon from '@shein-components/Icon'
 import { Button } from 'shineout'
 import './index.scss'
 import Status from '../../components/status'
+import CycleInformation from '../components/cycleInformation';
 
 function CycleManagement() {
   const { Header, Content } = Layout;
