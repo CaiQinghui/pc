@@ -140,6 +140,8 @@ const DebriefingRole = () => {
 
         <Modal
           title="新增"
+          cancelText="取消"
+          okText="确定"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -147,10 +149,10 @@ const DebriefingRole = () => {
           <Form
             name="basic"
             labelCol={{
-              span: 8,
+              span: 5,
             }}
             wrapperCol={{
-              span: 16,
+              span: 13,
             }}
             initialValues={{
               remember: true,
