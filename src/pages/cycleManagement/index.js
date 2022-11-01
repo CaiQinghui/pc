@@ -20,7 +20,9 @@ import './index.scss';
 
 const DebriefingScoring = () => {
   const [modalVisible, setModalVisible] = useState(0)
-  const [newDatas, setNewDatas] = useState([])
+  // const [newDatas, setNewDatas] = useState([])
+  // const [form] = Form.useForm()
+  const form = Form.useFormInstance()
   const { RangePicker } = DatePicker;
   const { Option } = Select
 
@@ -96,7 +98,13 @@ const DebriefingScoring = () => {
       //   ) : null,
       render: (_, record) =>
         dataSource.length >= 1 ? (
-          <a>编辑</a>
+          <Button
+            text
+            type="primary"
+            onClick={() => (setModalVisible(2))}
+          >
+            编辑
+          </Button>
         ) : null,
     },
   ];
@@ -133,6 +141,12 @@ const DebriefingScoring = () => {
   //   setDataSource(newData)
   // };
 
+  // const handleEdit = (key) => {
+  //   console.log(dataSource.filter((item) => item.key === key));
+  //   const value = dataSource.filter((item) => item.key === key)
+  //   setNewDatas([value])
+  //   console.log(newDatas);
+  // };
 
 
   const columns = defaultColumns.map((col) => {
@@ -201,13 +215,14 @@ const DebriefingScoring = () => {
         </Form>
 
         <Modal
-          title='新增'
+          title={modalVisible === 1 ? '新增' : '编辑'}
           destroyOnClose
-          open={modalVisible === 1}
-          onCancel={() => setModalVisible(0)}
+          open={modalVisible === 1 || modalVisible === 2}
+          onCancel={() => (setModalVisible(0))}
         >
           <Form
             name="add"
+            // form={form}
             labelCol={{
               span: 5,
             }}
