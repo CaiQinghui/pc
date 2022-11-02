@@ -8,7 +8,7 @@ import {
 } from 'antd'
 import moment from 'moment'
 
-const noop = () => { };
+const noop = () => { }
 const formItemLayout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 15 },

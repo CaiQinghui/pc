@@ -14,7 +14,7 @@ import moment from 'moment'
 import './index.scss'
 
 //数据
-const tableData = [];
+const tableData = []
 for (let i = 0; i < 619; i++) {
   if (i % 2 === 0) {
     tableData.push({
@@ -47,8 +47,8 @@ function CycleManagement() {
 
   //删除
   // const handleDel = (record) => {
-  //   setDataSource(dataSource.filter((item) => item.key !== record.key));
-  // };
+  //   setDataSource(dataSource.filter((item) => item.key !== record.key))
+  // }
 
   const showEditor = (record, isNew = false) => {
     setIsNew(isNew)
@@ -65,8 +65,8 @@ function CycleManagement() {
 
   const handleOkEditorModal = (data) => {
     if (isNew) {
-      let newDataSource = [...dataSource, data];
-      setDataSource(newDataSource);
+      let newDataSource = [...dataSource, data]
+      setDataSource(newDataSource)
     } else {
       const newDataSource = dataSource.map((item) => {
         if (item.key === data.key) {
@@ -74,12 +74,11 @@ function CycleManagement() {
         } else {
           return item
         }
-      });
+      })
       setDataSource(newDataSource)
     }
     setEditorModalVisible(0)
-  };
-
+  }
 
   const options = [
     {
@@ -98,7 +97,6 @@ function CycleManagement() {
       dataIndex: 'id',
       width: 60,
     },
-
     {
       title: '周期名称',
       dataIndex: 'cycleName',
@@ -106,13 +104,11 @@ function CycleManagement() {
       width: 280,
       ellipsis: true,
     },
-
     {
       title: '起止时间',
       dataIndex: 'startToEnd',
       width: 280,
     },
-
     {
       title: '状态',
       key: 'statu',
@@ -127,7 +123,6 @@ function CycleManagement() {
         )
       }
     },
-
     {
       title: '创建人',
       dataIndex: 'founder',
@@ -165,12 +160,12 @@ function CycleManagement() {
         </Button>
       ),
     },
-  ];
+  ]
 
   const afterClose = () => {
-    setRecord(null);
-    setIsNew(false);
-  };
+    setRecord(null)
+    setIsNew(false)
+  }
 
   const totalData = (total) => `共 ${total} 项数据`
 
@@ -244,7 +239,7 @@ function CycleManagement() {
         />
       </Card>
     </>
-  );
+  )
 }
 
 export default CycleManagement

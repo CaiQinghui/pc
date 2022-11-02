@@ -15,7 +15,6 @@
     "react-scripts": "5.0.1",
     "sass": "^1.55.0",
     "shineout": "^1.11.2",
-    "tdesign-react": "^0.42.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
