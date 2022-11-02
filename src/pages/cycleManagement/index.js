@@ -1,43 +1,85 @@
-import React, { useState } from 'react';
-// import 'antd/dist/antd.css';
+import React, { useState } from 'react'
 import {
-  Form,
-  Input,
-  Popconfirm,
   Table,
   Card,
-  Cascader,
+  Form,
   Alert,
-  Modal,
-  Select,
-  DatePicker
-} from 'antd';
+  Cascader,
+} from 'antd'
+import { Tag, Button } from 'shineout'
 import Icon from '@shein-components/Icon'
-import { Button } from 'shineout'
-import Status from '../../components/status';
-import moment from 'moment';
-import './index.scss';
+import { cloneDeep } from 'lodash'
+import EditorModal from '../../components/editor-modal'
+import moment from 'moment'
+import './index.scss'
 
-const DebriefingScoring = () => {
-  const [modalVisible, setModalVisible] = useState(0)
-  // const [newDatas, setNewDatas] = useState([])
-  // const [form] = Form.useForm()
-  const form = Form.useFormInstance()
-  const { RangePicker } = DatePicker;
-  const { Option } = Select
-
-  const data = []
-  for (let i = 0; i < 200; i++) {
-    data.push({
+//数据
+const tableData = [];
+for (let i = 0; i < 619; i++) {
+  if (i % 2 === 0) {
+    tableData.push({
       key: i,
       id: i + 1,
       cycleName: `2022年三季度O类岗员工职位晋升${i}`,
-      time: '2021-06-01 ~ 2021-06-15',
-      statu: <Status status='efficient' key={`${i}`} />,
-      founder: [<span className='surname' key={`${i}`}>詹</span>, `詹军希${i}`],
+      startToEnd: ['2021-06-01', ' ~ ', '2022-08-01'],
+      statu: '有效',
+      founder: `詹军希${i}`,
       creation: '2021-06-01 15:00',
-    });
+    })
+  } else {
+    tableData.push({
+      key: i,
+      id: i + 1,
+      cycleName: `2022年三季度O类晋升${i}`,
+      startToEnd: ['2022-02-08', ' ~ ', '2022-09-21'],
+      statu: '无效',
+      founder: `赫东${i}`,
+      creation: '2021-06-01 15:00',
+    })
   }
+}
+
+function CycleManagement() {
+  const [editorModalVisible, setEditorModalVisible] = useState(0)
+  const [record, setRecord] = useState(null)
+  const [isNew, setIsNew] = useState(false)
+  const [dataSource, setDataSource] = useState(tableData)
+
+  //删除
+  // const handleDel = (record) => {
+  //   setDataSource(dataSource.filter((item) => item.key !== record.key));
+  // };
+
+  const showEditor = (record, isNew = false) => {
+    setIsNew(isNew)
+    if (isNew) {
+      setRecord({
+        key: dataSource[dataSource.length - 1].key++,
+        id: dataSource.length + 1,
+        creation: moment().format('YYYY-MM-DD HH:mm'),
+      })
+    } else {
+      setRecord(cloneDeep(record))
+    }
+  }
+
+  const handleOkEditorModal = (data) => {
+    if (isNew) {
+      let newDataSource = [...dataSource, data];
+      setDataSource(newDataSource);
+    } else {
+      const newDataSource = dataSource.map((item) => {
+        if (item.key === data.key) {
+          return { ...item, ...data }
+        } else {
+          return item
+        }
+      });
+      setDataSource(newDataSource)
+    }
+    setEditorModalVisible(0)
+  };
+
 
   const options = [
     {
@@ -50,34 +92,58 @@ const DebriefingScoring = () => {
     },
   ]
 
-  const [dataSource, setDataSource] = useState(data)
-  const [count, setCount] = useState(dataSource.length)
-
-  const defaultColumns = [
+  const columns = [
     {
       title: '序号',
       dataIndex: 'id',
       width: 60,
     },
+
     {
       title: '周期名称',
       dataIndex: 'cycleName',
+      key: 'cycleName',
       width: 280,
+      ellipsis: true,
     },
+
     {
       title: '起止时间',
-      dataIndex: 'time',
+      dataIndex: 'startToEnd',
       width: 280,
     },
+
     {
       title: '状态',
+      key: 'statu',
       dataIndex: 'statu',
       width: 100,
+      render: (statu) => {
+        const type = (statu === '有效') ? 'success' : 'danger'
+        return (
+          <Tag type={type} key={statu} >
+            {statu}
+          </Tag >
+        )
+      }
     },
+
     {
       title: '创建人',
       dataIndex: 'founder',
+      key: 'founder',
       width: 150,
+      ellipsis: true,
+      render: (founder) => {
+        return (
+          <>
+            <Tag type='info' className='founder'>
+              {founder[0]}
+            </Tag>
+            <span>{founder}</span>
+          </>
+        )
+      }
     },
     {
       title: '创建时间',
@@ -86,85 +152,28 @@ const DebriefingScoring = () => {
     },
     {
       title: '操作',
-      // render: (_, record) =>
-      //   dataSource.length >= 1 ? (
-      //     <Popconfirm
-      //       title="确定要删除吗?"
-      //       okText="确定"
-      //       cancelText="取消"
-      //       onConfirm={() => handleDelete(record.key)}>
-      //       <a>删除</a>
-      //     </Popconfirm>
-      //   ) : null,
-      render: (_, record) =>
-        dataSource.length >= 1 ? (
-          <Button
-            text
-            type="primary"
-            onClick={() => (setModalVisible(2))}
-          >
-            编辑
-          </Button>
-        ) : null,
+      key: 'action',
+      render: (record) => (
+        <Button
+          text
+          type="primary"
+          onClick={() => (
+            showEditor(record),
+            setEditorModalVisible(2)
+          )}>
+          编辑
+        </Button>
+      ),
     },
   ];
 
-  //新增
-  const handleAdd = (fieldsValue) => {
-    const rangeValue = fieldsValue['startToEnd'];
-    const values = {
-      ...fieldsValue,
-      'cycleName': fieldsValue['cycleName'],
-      'start': rangeValue[0].format('YYYY-MM-DD'),
-      'end': rangeValue[1].format('YYYY-MM-DD'),
-      'statu': fieldsValue['statu'],
-      'founder': fieldsValue['founder'],
-    };
-    const newData = {
-      key: count,
-      id: count + 1,
-      cycleName: `${values.cycleName}`,
-      time: `${values.start} ~ ${values.end}`,
-      statu: <Status status={`${values.statu}`} key={`${count}`} />,
-      founder: [<span className='surname' key={`${count}`}>{values.founder[0]}</span>, `${values.founder}`],
-      creation: moment().format('YYYY-MM-DD HH:mm'),
-    }
-    setDataSource([...dataSource, newData])
-    setCount(count + 1)
-    setModalVisible(0)
+  const afterClose = () => {
+    setRecord(null);
+    setIsNew(false);
   };
 
-  //删除
-  // const handleDelete = (key) => {
-  //   console.log(dataSource.filter((item) => item.key === key));
-  //   const newData = dataSource.filter((item) => item.key !== key)
-  //   setDataSource(newData)
-  // };
-
-  // const handleEdit = (key) => {
-  //   console.log(dataSource.filter((item) => item.key === key));
-  //   const value = dataSource.filter((item) => item.key === key)
-  //   setNewDatas([value])
-  //   console.log(newDatas);
-  // };
-
-
-  const columns = defaultColumns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-      }),
-    }
-  })
-
   const totalData = (total) => `共 ${total} 项数据`
+
   return (
     <>
       <Card
@@ -185,6 +194,7 @@ const DebriefingScoring = () => {
           closable
         />
       </Card>
+
       <Card
         bordered={false}
         style={{
@@ -198,9 +208,10 @@ const DebriefingScoring = () => {
             <div className='left'>
               <Button
                 type="primary"
-                onClick={() => {
-                  setModalVisible(1)
-                }}
+                onClick={() => (
+                  showEditor({}, true),
+                  setEditorModalVisible(1)
+                )}
               >
                 新增
               </Button>
@@ -213,124 +224,27 @@ const DebriefingScoring = () => {
             </div>
           </div>
         </Form>
-
-        <Modal
-          title={modalVisible === 1 ? '新增' : '编辑'}
-          destroyOnClose
-          open={modalVisible === 1 || modalVisible === 2}
-          onCancel={() => (setModalVisible(0))}
-        >
-          <Form
-            name="add"
-            // form={form}
-            labelCol={{
-              span: 5,
-            }}
-            wrapperCol={{
-              span: 15,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            autoComplete="off"
-            onFinish={handleAdd}
-          >
-            <Form.Item
-              label="周期名称"
-              name="cycleName"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入周期名称',
-                },
-              ]}
-            >
-              <Input placeholder='请输入' />
-            </Form.Item>
-
-            <Form.Item
-              label="起止时间"
-              name="startToEnd"
-              rules={[
-                {
-                  type: 'array',
-                  required: true,
-                  message: '请选择起止时间',
-                },
-              ]}
-            >
-              <RangePicker placeholder={["开始时间", "结束时间"]} />
-            </Form.Item>
-
-            <Form.Item
-              label="状态"
-              name="statu"
-              rules={[
-                {
-                  required: true,
-                  message: '请选择状态',
-                },
-              ]}
-            >
-              <Select
-                placeholder="请选择"
-                style={{
-                  width: 120,
-                }}
-              >
-                <Option value="efficient">有效</Option>
-                <Option value="invalid">无效</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              label="创建人"
-              name="founder"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入创建人',
-                },
-              ]}
-            >
-              <Input placeholder='请输入' />
-            </Form.Item>
-            <Form.Item
-              wrapperCol={{
-                xs: {
-                  span: 24,
-                  offset: 0,
-                },
-                sm: {
-                  span: 16,
-                  offset: 8,
-                },
-              }}
-            >
-              <Button type="primary" onClick={() => setModalVisible(0)}>
-                取消
-              </Button>
-              <Button type="primary" htmlType="submit">
-                确认
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
-
         <Table
-          className='table'
-          dataSource={dataSource}
           columns={columns}
+          dataSource={dataSource}
+          className='table'
           pagination={{
             showTotal: totalData,
             pageSizeOptions: [10, 20, 30, 50, 100],
             showSizeChanger: true,
-            locale: { items_per_page: '/ 页', }
-
           }}
+        />
+        <EditorModal
+          visible={editorModalVisible}
+          record={record}
+          handleCancel={() => setEditorModalVisible(0)}
+          handleOk={handleOkEditorModal}
+          afterClose={afterClose}
+          isNew={isNew}
         />
       </Card>
     </>
   );
-};
-export default DebriefingScoring;
+}
+
+export default CycleManagement

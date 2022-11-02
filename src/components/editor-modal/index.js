@@ -4,8 +4,10 @@ import {
   Modal,
   Input,
   Select,
-  DatePicker
+  DatePicker,
 } from 'antd'
+import moment from 'moment'
+
 const noop = () => { };
 const formItemLayout = {
   labelCol: { span: 5 },
@@ -35,16 +37,33 @@ const EditorModal = (props) => {
   ]
 
   useEffect(() => {
-    if (visible) {
-      form.setFieldsValue(record);
+    if (visible === 2) {
+      const time = [moment(record.startToEnd[0], ['YYYY-MM-DD']), moment(record.startToEnd[2], ['YYYY-MM-DD'])]
+      form.setFieldsValue({
+        cycleName: record.cycleName,
+        statu: record.statu,
+        founder: record.founder,
+        startToEnd: time,
+      })
     } else {
-      form.resetFields();
+      form.resetFields()
     }
-  }, [visible])
+  })
 
   const onOk = () => {
-    const values = form.getFieldsValue();
-    handleOk({ ...record, ...values });
+    const fieldsValue = form.getFieldsValue()
+    const rangeValue = fieldsValue['startToEnd']
+    const values = {
+      'start': rangeValue[0].format('YYYY-MM-DD'),
+      'end': rangeValue[1].format('YYYY-MM-DD'),
+    }
+    const newData = {
+      cycleName: fieldsValue.cycleName,
+      startToEnd: [`${values.start}`, ' ~ ', `${values.end}`],
+      statu: fieldsValue.statu,
+      founder: fieldsValue.founder,
+    }
+    handleOk({ ...record, ...newData })
   }
 
   return (
@@ -83,13 +102,12 @@ const EditorModal = (props) => {
             }
           ]}
         >
-          {/* <RangePicker
-            placeholder={["开始时间", "结束时间"]}
-            {...form('date', {
-              initialValue: [record.startToEnd[0], record.startToEnd[2]]
-            })}
-          /> */}
-          <Input placeholder='请输入' />
+          {/* <ConfigProvider locale={zh_CN}> */}
+          <RangePicker
+          // placeholder={["开始时间", "结束时间"]}
+          />
+          {/* </ConfigProvider> */}
+
         </Form.Item>
         <Form.Item
           label="状态"

@@ -19,7 +19,7 @@
 //表格
 .table {
   .ant-table-cell {
-    padding: 12px 16px;
+    padding: 8px 16px;
   }
 
   .ant-pagination-prev .ant-pagination-item-link,
@@ -31,28 +31,18 @@
     border-radius: 5px;
   }
 
+  .ant-pagination-item-active {
+    background-color: #1890ff;
+  }
+
   .ant-pagination-item-active a {
     color: #fff;
-    background-color: #1890ff;
   }
 
   // 总数据靠左
   .ant-pagination-total-text {
     position: absolute;
     left: 0;
-  }
-
-  .surname {
-    display: inline-block;
-    margin-right: 5px;
-    width: 22px;
-    height: 22px;
-    line-height: 22px;
-    font-size: 10px;
-    text-align: center;
-    border-radius: 50%;
-    background-color: #fffce7;
-    color: #ffe060;
   }
 }
 
@@ -63,6 +53,6 @@
   }
 }
 
-// .ant-modal-footer {
-//   display: none;
-// }
+.founder {
+  border-radius: 50%;
+}
