@@ -6,7 +6,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css'
 import 'shineout/dist/theme.shineout.css'
-import 'tdesign-react/es/style/index.css'
 import zh_CN from 'antd/lib/locale-provider/zh_CN'
 import 'moment/locale/zh-cn'
 import { ConfigProvider } from 'antd'

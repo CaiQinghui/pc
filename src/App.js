@@ -13,11 +13,9 @@ import {
 } from 'antd'
 import { Button } from 'shineout'
 import Icon from '@shein-components/Icon'
-import { MenuOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons'
-
+import { MenuOutlined, MenuUnfoldOutlined, UserOutlined, LoadingOutlined } from '@ant-design/icons'
 import './App.scss'
 import pages from './pages'
-
 
 
 function App() {
@@ -142,7 +140,7 @@ function App() {
               overflow: 'initial',
             }}
           >
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div><LoadingOutlined /></div>}>
               <Routes>
                 <Route
                   path='/'
