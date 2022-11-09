@@ -16,7 +16,7 @@ import './index.scss'
 //数据
 const tableData = []
 for (let i = 0; i < 619; i++) {
-  if (i % 2 === 0) {
+  if (i % 3 === 0) {
     tableData.push({
       key: i,
       id: i + 1,

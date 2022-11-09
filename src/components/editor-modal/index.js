@@ -75,7 +75,7 @@ const EditorModal = (props) => {
       cancelText="取消"
       okText="确定"
       afterClose={afterClose}
-      forceRender={true}
+      forceRender
       destroyOnClose={false}
     >
       <Form {...formItemLayout} form={form}>
